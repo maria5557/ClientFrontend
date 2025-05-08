@@ -2,6 +2,7 @@ export const EXAMPLE_QUERIES = {
   getComerces: (values) =>
     `https://localhost:3000/updateComerce/${values.id}`,
   getClients: () => `http://localhost:8080/clients`,
+  deleteClient: (values) => `http://localhost:8080/clients/${values.id}`
 
 };
 

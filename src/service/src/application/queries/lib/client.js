@@ -15,6 +15,20 @@ const clientUseCases = {
     );
   },
 
+  
+  deleteClient: (signal, values, token) => {
+    return manageRequest(
+      signal,
+      'deleteClient',
+      values,
+      'query',
+      'normal',
+      'delete',
+      token,
+      undefined
+    );
+  },
+
 
 };
 

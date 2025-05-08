@@ -9,5 +9,9 @@ export const EXAMPLE_METHODS = {
   getClients: (response) => {
     return response;
   },
+
+  deleteClient: (response) => {
+    return response;
+  },
   
 };
