@@ -25,7 +25,10 @@ const clientUseCases = {
       'normal',
       'delete',
       token,
-      undefined
+      undefined,
+      {},
+      true,
+      values
     );
   },
 

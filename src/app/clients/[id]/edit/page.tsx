@@ -6,8 +6,7 @@ export default async function EditClientPage({ params }: { params: { id: string 
 
   return (
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">Editar cliente</h1>
-      <ClientForm initialClient={client} clientId={params.id} />
+      <ClientForm initialClient={client.data} clientId={params.id} />
     </div>
   );
 }

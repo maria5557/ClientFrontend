@@ -1,14 +1,14 @@
 import Service from "@/service/src";
+import type { ClientDTO } from '@/common/types/client';
 
-export interface ClientDTO {
-    id?: string;
-    name?: string;
-    surname?: string;
-    cifNifNie?: string;
-    email?: string;
-    phone?: string;
-  }
-
+  export const getClientById = async (id: string): Promise<ClientDTO> => {
+    const response = await Service.useCases('getClientById', {
+      endPointData: { id },
+      token: '',
+      signal: null,
+    });
+    return response as ClientDTO;
+  };
 
 export const handleEdit = (id: string) => {
     window.location.href = `/clients/${id}/edit`;
@@ -34,15 +34,7 @@ export const handleEdit = (id: string) => {
   };
 
 
-  export const getClientById = async (id: string): Promise<ClientDTO> => {
-    const response = await Service.useCases('getClientById', {
-      endPointData: { id },
-      token: '',
-      signal: null,
-    });
-  
-    return response as ClientDTO;
-  };
+ 
   
   export const updateClient = async (id: string, clientData: any) => {
     try {
