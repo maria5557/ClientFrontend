@@ -13,5 +13,18 @@ export const EXAMPLE_METHODS = {
   deleteClient: (response) => {
     return response;
   },
+
+  getClientById: (response) => {
+    return response;
+  },
+  
+  updateClient: (response) => {
+    return response;
+  },
+
+  createClient: (response) => {
+    return response;
+  },
+  
   
 };

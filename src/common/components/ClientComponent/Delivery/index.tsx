@@ -5,11 +5,13 @@ import { useState } from 'react';
 import { handleDelete, handleEdit } from '@/common/components/ClientComponent/infraestructure/functions';
 import { Button } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 const { Title } = Typography;
 
 const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
   const [data, setData] = useState<Record<string, any>[]>(clientes);
+  const router = useRouter();
 
 
   // Función para actualizar el estado de la tabla tras eliminar
@@ -58,6 +60,13 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
   return (
     <div className="p-6">
       <Title level={2}>Lista de Clientes</Title>
+  
+      <div className="flex justify-end mb-4">
+        <Button type="primary" onClick={() => router.push('/clients/nuevo')}>
+          Crear Cliente
+        </Button>
+      </div>
+  
       <Table
         dataSource={data}
         columns={columns}

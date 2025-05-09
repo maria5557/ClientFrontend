@@ -29,6 +29,7 @@ const manageRequest = async (
   cache = 'no-store',
   headers = {},
   commonBody = true,
+  queryParams = {},
 ) => {
   try {
     let fetchConfig = {
@@ -44,7 +45,7 @@ const manageRequest = async (
         : { ...headers },
     };
 
-    let url = QUERIES[requestString](params);
+    let url = QUERIES[requestString](queryParams);
     if (mode === 'query') {
       if (typeof params === 'string') {
         url += `?${params}`;
@@ -64,6 +65,8 @@ const manageRequest = async (
     ) {
       fetchConfig['body'] = commonBody ? JSON.stringify(params) : params;
     }
+
+    console.log("Fetch:  ",fetchConfig)
     const response = await fetch(url, fetchConfig);
     const responseBody = await response.text();
 
