@@ -15,7 +15,7 @@ export const EXAMPLE_METHODS = {
   },
 
   getClientById: (response) => {
-    return response;
+    return response.data;
   },
   
   updateClient: (response) => {
@@ -25,6 +25,5 @@ export const EXAMPLE_METHODS = {
   createClient: (response) => {
     return response;
   },
-  
   
 };

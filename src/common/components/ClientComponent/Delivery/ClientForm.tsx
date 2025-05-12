@@ -11,6 +11,7 @@ type ClientFormProps = {
 };
 
 export default function ClientForm({ initialClient = {}, clientId }: ClientFormProps) {
+  console.log("El cliente inicial en el formulario es: ", initialClient)
   const router = useRouter();
   const isEditing = !!clientId;
 
