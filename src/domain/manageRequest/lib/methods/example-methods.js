@@ -1,3 +1,5 @@
+import { merchantTypeMap } from '@/common/types/merchant';
+
 
 export const EXAMPLE_METHODS = {
   
@@ -23,6 +25,26 @@ export const EXAMPLE_METHODS = {
   },
 
   createClient: (response) => {
+    return response;
+  },
+
+
+
+  getMerchants: (response) => {
+    return response;
+  },
+
+
+  deleteMerchant: (response) => {
+    return response;
+  },
+  getMerchantById: (response) => {
+    return response.data;
+  },
+  updateMerchant: (response) => {
+    return response;
+  },
+  createMerchant: (response) => {
     return response;
   },
   
