@@ -47,6 +47,56 @@ const clientUseCases = {
       values
     );
   },
+
+
+  getMerchantsByClientId: (signal, values, token) => {
+    return manageRequest(
+      signal,
+      'getMerchantsByClientId',
+      values,
+      'query',
+      'normal',
+      'get',
+      token,
+      undefined,
+      {},
+      true,
+      values
+    );
+  },
+
+  getClientByName: (signal, values, token) => {
+    return manageRequest(
+      signal,
+      'getClientByName',
+      values,
+      'query',
+      'normal',
+      'get',
+      token,
+      undefined,
+      {},
+      true,
+      values
+    );
+  },
+
+  
+  getClientByEmail: (signal, values, token) => {
+    return manageRequest(
+      signal,
+      'getClientByEmail',
+      values,
+      'query',
+      'normal',
+      'get',
+      token,
+      undefined,
+      {},
+      true,
+      values
+    );
+  },
   
   updateClient: (signal, values, token) => {
     const { id, ...body } = values;

@@ -6,3 +6,18 @@ export interface ClientDTO {
   email?: string;
   phone?: string;
 }
+
+export interface MerchantObject {
+  id: string;
+  name: string;
+}
+
+export interface ClientMerchantOutputDTO {
+  id: string;
+  name: string;
+  surname: string;
+  cifNifNie: string;
+  phone: string;
+  email: string;
+  merchants: MerchantObject[];
+}

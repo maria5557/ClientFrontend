@@ -2,6 +2,11 @@ export const EXAMPLE_QUERIES = {
   getClients: () => `http://localhost:8080/clients`,
   deleteClient: (values) => `http://localhost:8080/clients/${values.id}`,
   getClientById: (values) => `http://localhost:8080/clients/${values.id}`,
+  getClientByName: (values) => `http://localhost:8080/clients/search/${values.name}`,
+  getClientByEmail: (values) => `http://localhost:8080/clients/email/${values.email}`,
+  getMerchantsByClientId: (values) => `http://localhost:8080/clients/${values.id}/merchants`,
+
+
   updateClient: (values)  => `http://localhost:8080/clients/${values.id}`,
   createClient: () => `http://localhost:8080/clients`,
 

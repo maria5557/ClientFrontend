@@ -27,13 +27,20 @@ export const EXAMPLE_METHODS = {
   createClient: (response) => {
     return response;
   },
-
-
+  getClientByName: (response) => {
+    return response.data;
+  },
+  getClientByEmail: (response) => {
+    return response.data;
+  },
+  getMerchantsByClientId: (response) => {
+    return response.data;
+  },
+  
 
   getMerchants: (response) => {
     return response;
   },
-
 
   deleteMerchant: (response) => {
     return response;

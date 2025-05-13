@@ -1,14 +1,65 @@
 import Service from "@/service/src";
-import type { ClientDTO } from '@/common/types/client';
+import type { ClientDTO, ClientMerchantOutputDTO } from '@/common/types/client';
+import { parseError } from '@/common/utils/parseError';
 
-  export const getClientById = async (id: string): Promise<ClientDTO> => {
+export const getClientById = async (id: string): Promise<ClientDTO> => {
+  try {
     const response = await Service.useCases('getClientById', {
       endPointData: { id },
       token: '',
       signal: null,
     });
     return response as ClientDTO;
-  };
+  } catch (error: any) {
+    throw await parseError(error);
+  }
+};
+
+export const getClientByName = async (name: string): Promise<ClientDTO> => {
+  try {
+    const response = await Service.useCases('getClientByName', {
+      endPointData: { name },
+      token: '',
+      signal: null,
+    });
+    return response as ClientDTO;
+  } catch (error: any) {
+    if (error?.status === 404) {
+      throw new Error('Cliente no encontrado');
+    }
+    throw error;
+  }
+};
+
+export const getClientByEmail = async (email: string): Promise<ClientDTO> => {
+  try {
+    const response = await Service.useCases('getClientByEmail', {
+      endPointData: { email },
+      token: '',
+      signal: null,
+    });
+    return response as ClientDTO;
+  } catch (error: any) {
+    console.log("me he metido en el catch de buscar por email")
+    throw await parseError(error);
+  }
+};
+
+
+export const getMerchantsByClientId = async (id: string): Promise<ClientMerchantOutputDTO> => {
+  try {
+    const response = await Service.useCases('getMerchantsByClientId', {
+      endPointData: { id },
+      token: '',
+      signal: null,
+    });
+    return response as ClientMerchantOutputDTO;
+  } catch (error: any) {
+    throw await parseError(error);
+  }
+};
+
+
 
 export const handleEdit = (id: string) => {
     window.location.href = `/clients/${id}/edit`;

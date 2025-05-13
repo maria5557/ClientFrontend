@@ -1,5 +1,7 @@
 import Service from "@/service/src";
 import type { MerchantDTO } from '@/common/types/merchant';
+import { parseError } from '@/common/utils/parseError';
+
 
   export const getMerchantById = async (id: string): Promise<MerchantDTO> => {
     const response = await Service.useCases('getMerchantById', {
@@ -62,3 +64,4 @@ export const handleEdit = (id: string) => {
       throw new Error('No se pudo crear el merchant');
     }
   };
+
