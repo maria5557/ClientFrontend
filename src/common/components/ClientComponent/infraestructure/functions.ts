@@ -2,6 +2,21 @@ import Service from "@/service/src";
 import type { ClientDTO, ClientMerchantOutputDTO } from '@/common/types/client';
 import { parseError } from '@/common/utils/parseError';
 
+
+export const getClients = async (): Promise<ClientDTO[]> => {
+  try {
+    const response = await Service.useCases("getClients", {
+      signal: null,
+      endPointData: {},
+      token: "",
+    });
+    return response as ClientDTO[];
+  } catch (error: any) {
+    throw await parseError(error);
+  }
+};
+
+
 export const getClientById = async (id: string): Promise<ClientDTO> => {
   try {
     const response = await Service.useCases('getClientById', {
@@ -15,14 +30,15 @@ export const getClientById = async (id: string): Promise<ClientDTO> => {
   }
 };
 
-export const getClientByName = async (name: string): Promise<ClientDTO> => {
+export const getClientByName = async (name: string): Promise<ClientDTO[]> => {
   try {
     const response = await Service.useCases('getClientByName', {
       endPointData: { name },
       token: '',
       signal: null,
     });
-    return response as ClientDTO;
+    return response as ClientDTO[];
+    
   } catch (error: any) {
     if (error?.status === 404) {
       throw new Error('Cliente no encontrado');

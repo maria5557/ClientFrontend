@@ -9,7 +9,7 @@ export const EXAMPLE_METHODS = {
   },
 
   getClients: (response) => {
-    return response;
+    return response.data;
   },
 
   deleteClient: (response) => {
