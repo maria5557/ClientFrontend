@@ -40,10 +40,7 @@ export const getClientByName = async (name: string): Promise<ClientDTO[]> => {
     return response as ClientDTO[];
     
   } catch (error: any) {
-    if (error?.status === 404) {
-      throw new Error('Cliente no encontrado');
-    }
-    throw error;
+    throw await parseError(error);
   }
 };
 

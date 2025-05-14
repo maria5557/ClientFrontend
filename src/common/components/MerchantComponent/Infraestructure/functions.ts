@@ -2,15 +2,49 @@ import Service from "@/service/src";
 import type { MerchantDTO } from '@/common/types/merchant';
 import { parseError } from '@/common/utils/parseError';
 
+export const getMerchants = async (): Promise<MerchantDTO[]> => {
+  try {
+    const response = await Service.useCases("getMerchants", {
+      signal: null,
+      endPointData: {},
+      token: "",
+    });
+    return response as MerchantDTO[];
+  } catch (error: any) {
+    throw await parseError(error);
+  }
+};
+
 
   export const getMerchantById = async (id: string): Promise<MerchantDTO> => {
-    const response = await Service.useCases('getMerchantById', {
-      endPointData: { id },
-      token: '',
-      signal: null,
-    });
-    return response as MerchantDTO;
+    try {
+      const response = await Service.useCases('getMerchantById', {
+        endPointData: { id },
+        token: '',
+        signal: null,
+      });
+      return response as MerchantDTO;
+    }catch (error: any) {
+      throw await parseError(error);
+    }
   };
+
+  export const getMerchantByName = async (name: string): Promise<MerchantDTO[]> => {
+    try {
+      const response = await Service.useCases('getMerchantByName', {
+        endPointData: { name },
+        token: '',
+        signal: null,
+      });
+      return response as MerchantDTO[];
+      
+    } catch (error: any) {
+      throw await parseError(error);
+    }
+  };
+
+
+
 
 export const handleEdit = (id: string) => {
     window.location.href = `/merchants/${id}/edit`;

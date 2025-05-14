@@ -39,7 +39,7 @@ export const EXAMPLE_METHODS = {
   
 
   getMerchants: (response) => {
-    return response;
+    return response.data;
   },
 
   deleteMerchant: (response) => {
@@ -53,6 +53,9 @@ export const EXAMPLE_METHODS = {
   },
   createMerchant: (response) => {
     return response;
+  },
+  getMerchantByName: (response) => {
+    return response.data;
   },
   
 };

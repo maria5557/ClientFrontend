@@ -13,6 +13,7 @@ export const EXAMPLE_QUERIES = {
   getMerchants: () => `http://localhost:8081/merchants`,
   deleteMerchant: (values) => `http://localhost:8081/merchants/${values.id}`,
   getMerchantById: (values) => `http://localhost:8081/merchants/${values.id}`,
+  getMerchantByName: (values) => `http://localhost:8081/merchants/search/${values.name}`,
   updateMerchant: (values)  => `http://localhost:8081/merchants/${values.id}`,
   createMerchant: () => `http://localhost:8081/merchants`,
 

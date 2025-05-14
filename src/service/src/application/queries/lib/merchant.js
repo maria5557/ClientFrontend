@@ -86,6 +86,22 @@ const merchantUseCases = {
         );
       },
 
+      getMerchantByName: (signal, values, token) => {
+        return manageRequest(
+          signal,
+          'getMerchantByName',
+          values,
+          'query',
+          'normal',
+          'get',
+          token,
+          undefined,
+          {},
+          true,
+          values
+        );
+      },
+
 };
 
 export default merchantUseCases;

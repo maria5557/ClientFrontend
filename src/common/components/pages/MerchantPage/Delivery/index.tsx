@@ -1,17 +1,21 @@
 import MerchantTable from '@/common/components/MerchantComponent/Delivery';
-import Service from '@/service/src';
+import {getMerchants, getMerchantByName} from '@/common/components/MerchantComponent/Infraestructure/functions'
 
-export default async function MerchantsPageComponent() {
+export default async function MerchantsPageComponent({ query }: { query?: string }) {
   let res: { data: Record<string, any>[]  } = { data: [] };
 
   try {
-    res = await Service.useCases("getMerchants", {
-      signal: null,
-      endPointData: {},
-      token: "",
-    }) as { data:Record<string, any>[] };
+    if(query){
+      const merchant = await getMerchantByName(query)
+      res.data = merchant || [];
+    }else{
+      const allMerchants = await getMerchants();
+      res.data = allMerchants;
+    }
+
   } catch (error) {
     console.error("Error al obtener merchants:", error);
+    res.data = [];
   }
 
   return (
