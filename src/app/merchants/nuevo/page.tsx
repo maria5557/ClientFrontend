@@ -1,4 +1,4 @@
-import MerchantForm from "@/common/components/MerchantComponent/Delivery/MerchatForm";
+import MerchantForm from "@/common/components/MerchantComponent/Delivery/components/MerchatForm";
 
 export default function CreateMerchantPage() {
   return (

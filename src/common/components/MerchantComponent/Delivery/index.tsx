@@ -17,7 +17,7 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
   const [clientModalVisible, setClientModalVisible] = useState(false);
   const [clientNotFound, setClientNotFound] = useState(false);
   const [selectedMerchantDetails, setSelectedMerchantDetails] = useState<Record<string, any> | null>(null);
-  const [clientData, setClientData] = useState<{ name: string; email: string } | null>(null);
+  const [clientData, setClientData] = useState<{ name: string; surname: string; email: string } | null>(null);
   const router = useRouter();
 
   const updateData = (id: string) => {
@@ -29,7 +29,8 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
       const client = await getClientById(idCliente);
       if (client) {
         setClientData({
-          name: `${client.name ?? ''} ${client.surname ?? ''}`.trim(),
+          name: client.name ?? '',
+          surname: client.surname ?? '', 
           email: client.email ?? 'Email no disponible',
         });
         setClientNotFound(false);

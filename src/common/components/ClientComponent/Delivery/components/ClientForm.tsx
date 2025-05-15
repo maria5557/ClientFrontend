@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { FormEvent } from 'react';
-import { updateClient, createClient } from '../infraestructure/functions';
+import { updateClient, createClient } from '../../infraestructure/functions';
 import type { ClientDTO } from '@/common/types/client';
 
 type ClientFormProps = {
@@ -42,7 +42,9 @@ export default function ClientForm({ initialClient = {}, clientId }: ClientFormP
 
   // Función para manejar el botón de "Volver"
   const handleGoBack = () => {
-    router.back();  // Regresa a la página anterior
+    //router.back();  // Regresa a la página anterior
+    router.push("/clients");
+    //Tambien se puede usar router.replace(). Dif
   };
 
   return (

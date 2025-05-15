@@ -1,5 +1,5 @@
 import { getMerchantById } from '@/common/components/MerchantComponent/Infraestructure/functions';
-import MerchantForm from "@/common/components/MerchantComponent/Delivery/MerchatForm";
+import MerchantForm from "@/common/components/MerchantComponent/Delivery/components/MerchatForm";
 
 export default async function EditMerchantPage({ params }: { params: { id: string } }) {
   const merchant = await getMerchantById(params.id);

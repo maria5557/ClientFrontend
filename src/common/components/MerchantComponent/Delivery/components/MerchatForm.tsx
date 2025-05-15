@@ -203,7 +203,7 @@ export default function MerchantForm({ initialMerchant = {}, merchantId }: Merch
       <div className="flex justify-between items-center">
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => router.push("/merchants")}
           className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400"
         >
           Volver

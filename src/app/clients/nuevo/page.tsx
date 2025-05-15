@@ -1,4 +1,4 @@
-import ClientForm from "@/common/components/ClientComponent/Delivery/ClientForm";
+import ClientForm from "@/common/components/ClientComponent/Delivery/components/ClientForm";
 
 export default function CreateClientPage() {
   return (
