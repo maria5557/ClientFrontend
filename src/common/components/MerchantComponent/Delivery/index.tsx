@@ -1,31 +1,35 @@
 'use client';
 
-import { Table, Typography, message, Button, Modal } from 'antd';
+import { Table, Typography, message, Button } from 'antd';
 import { useState } from 'react';
 import { handleDelete, handleEdit } from '@/common/components/MerchantComponent/Infraestructure/functions';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import { getClientById } from '@/common/components/ClientComponent/infraestructure/functions';
+import ClientInfoModal from '@/common/components/shared/ClientInfoModal';
+import MerchantDetailModal from '@/common/components/shared/MerchantDetailModal';
 
 const { Title } = Typography;
 
 const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
   const [data, setData] = useState<Record<string, any>[]>(merchants);
+  const [merchantModalVisible, setMerchantModalVisible] = useState(false);
   const [clientModalVisible, setClientModalVisible] = useState(false);
-  const [clientData, setClientData] = useState<{ name: string; email: string } | null>(null);
   const [clientNotFound, setClientNotFound] = useState(false);
+  const [selectedMerchantDetails, setSelectedMerchantDetails] = useState<Record<string, any> | null>(null);
+  const [clientData, setClientData] = useState<{ name: string; email: string } | null>(null);
   const router = useRouter();
 
   const updateData = (id: string) => {
     setData((prev) => prev.filter((merchant) => merchant.id !== id));
   };
 
-  const showClientModal = async (idCliente: string) => {
+  const fetchClient = async (idCliente: string) => {
     try {
       const client = await getClientById(idCliente);
       if (client) {
         setClientData({
-          name: client.name ?? 'Nombre no disponible',
+          name: `${client.name ?? ''} ${client.surname ?? ''}`.trim(),
           email: client.email ?? 'Email no disponible',
         });
         setClientNotFound(false);
@@ -33,12 +37,31 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
         setClientData(null);
         setClientNotFound(true);
       }
-    } catch (error) {
+    } catch {
       setClientData(null);
       setClientNotFound(true);
-    } finally {
-      setClientModalVisible(true);
     }
+  };
+
+  const handleShowClientModal = async (merchant: Record<string, any>) => {
+    if (merchant.idCliente) {
+      await fetchClient(merchant.idCliente);
+    } else {
+      setClientData(null);
+      setClientNotFound(true);
+    }
+    setClientModalVisible(true);
+  };
+
+  const handleShowMerchantModal = async (merchant: Record<string, any>) => {
+    setSelectedMerchantDetails(merchant);
+    if (merchant.idCliente) {
+      await fetchClient(merchant.idCliente);
+    } else {
+      setClientData(null);
+      setClientNotFound(true);
+    }
+    setMerchantModalVisible(true);
   };
 
   const columns = [
@@ -48,19 +71,15 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
     {
       title: 'Cliente',
       key: 'client',
-      render: (_: any, record: Record<string, any>) => {
-        const hasClient = record.idCliente && record.idCliente !== '';
-        return hasClient ? (
-          <Button
-            type="link"
-            onClick={() => showClientModal(record.idCliente)}
-          >
+      render: (_: any, record: Record<string, any>) => (
+        record.idCliente ? (
+          <Button type="link" onClick={() => handleShowClientModal(record)}>
             Ver cliente
           </Button>
         ) : (
           <span>No tiene cliente</span>
-        );
-      },
+        )
+      ),
     },
     {
       title: 'Acciones',
@@ -84,11 +103,18 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
               const success = await handleDelete(record.id!);
               if (success) {
                 updateData(record.id!);
-                message.success("Merchant borrado correctamente");
+                message.success('Merchant borrado correctamente');
               }
             }}
           >
             Borrar
+          </Button>
+          <Button
+            size="small"
+            icon={<InfoCircleOutlined />}
+            onClick={() => handleShowMerchantModal(record)}
+          >
+            Más info
           </Button>
         </div>
       ),
@@ -105,34 +131,32 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
         </Button>
       </div>
 
-      <Table
-        dataSource={data}
-        columns={columns}
-        pagination={{ pageSize: 10 }}
-        rowKey="id"
-      />
+      <Table dataSource={data} columns={columns} pagination={{ pageSize: 10 }} rowKey="id" />
 
-      <Modal
+      {/* Modales reutilizables */}
+      <ClientInfoModal
         open={clientModalVisible}
-        onCancel={() => {
+        onClose={() => {
           setClientModalVisible(false);
           setClientData(null);
           setClientNotFound(false);
         }}
-        footer={null}
-        title="Información del Cliente"
-      >
-        {clientNotFound ? (
-          <p style={{ color: 'red' }}>Cliente no encontrado o no asociado</p>
-        ) : clientData ? (
-          <div className="space-y-2">
-            <p><strong>Nombre:</strong> {clientData.name}</p>
-            <p><strong>Email:</strong> {clientData.email}</p>
-          </div>
-        ) : (
-          <p>Cargando información del cliente...</p>
-        )}
-      </Modal>
+        clientNotFound={clientNotFound}
+        clientData={clientData}
+      />
+
+      <MerchantDetailModal
+        open={merchantModalVisible}
+        onClose={() => {
+          setMerchantModalVisible(false);
+          setSelectedMerchantDetails(null);
+          setClientData(null);
+          setClientNotFound(false);
+        }}
+        merchant={selectedMerchantDetails}
+        clientData={clientData}
+        clientNotFound={clientNotFound}
+      />
     </div>
   );
 };

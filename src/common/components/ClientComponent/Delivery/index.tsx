@@ -1,17 +1,18 @@
 'use client';
 
-import { Table, Typography, message, Button, Modal } from 'antd';
+import { Table, Typography, message, Button } from 'antd';
 import { useState } from 'react';
 import { handleDelete, handleEdit, getMerchantsByClientId } from '@/common/components/ClientComponent/infraestructure/functions';
 import { EditOutlined, DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
+import MerchantsByClientModal from '@/common/components/shared/MerchantsByClientModal';
 
 const { Title } = Typography;
 
 const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
   const [data, setData] = useState<Record<string, any>[]>(clientes);
   const [merchantsModalVisible, setMerchantsModalVisible] = useState(false);
-  const [merchantNames, setMerchantNames] = useState<string[] | null>(null);
+  const [merchants, setMerchants] = useState<Record<string, any>[] | null>(null);
   const [merchantsNotFound, setMerchantsNotFound] = useState(false);
   const router = useRouter();
 
@@ -23,15 +24,14 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
     try {
       const response = await getMerchantsByClientId(idCliente);
       if (response?.merchants && response.merchants.length > 0) {
-        const names = response.merchants.map((m: any) => m.name || 'Nombre no disponible');
-        setMerchantNames(names);
+        setMerchants(response.merchants);
         setMerchantsNotFound(false);
       } else {
-        setMerchantNames(null);
+        setMerchants(null);
         setMerchantsNotFound(true);
       }
-    } catch (error) {
-      setMerchantNames(null);
+    } catch {
+      setMerchants(null);
       setMerchantsNotFound(true);
     } finally {
       setMerchantsModalVisible(true);
@@ -72,7 +72,6 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
           >
             Borrar
           </Button>
-
           <Button
             size="small"
             type="default"
@@ -98,28 +97,16 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
 
       <Table dataSource={data} columns={columns} pagination={{ pageSize: 10 }} rowKey="id" />
 
-      <Modal
+      <MerchantsByClientModal
         open={merchantsModalVisible}
-        onCancel={() => {
+        onClose={() => {
           setMerchantsModalVisible(false);
-          setMerchantNames(null);
+          setMerchants(null);
           setMerchantsNotFound(false);
         }}
-        footer={null}
-        title="Merchants Asociados"
-      >
-        {merchantsNotFound ? (
-          <p style={{ color: 'red' }}>No se encontraron merchants asociados a este cliente.</p>
-        ) : merchantNames ? (
-          <ul className="list-disc list-inside space-y-1">
-            {merchantNames.map((name, index) => (
-              <li key={index}>{name}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>Cargando merchants...</p>
-        )}
-      </Modal>
+        merchantsNotFound={merchantsNotFound}
+        merchants={merchants}
+      />
     </div>
   );
 };
