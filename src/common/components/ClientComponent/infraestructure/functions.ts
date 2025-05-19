@@ -5,7 +5,7 @@ import { parseError } from '@/common/utils/parseError';
 
 export const getClients = async (): Promise<ClientDTO[]> => {
   try {
-    const response = await Service.useCases("getClients", {
+    const response = await Service.getuseCases("getClients", {
       signal: null,
       endPointData: {},
       token: "",
@@ -19,7 +19,7 @@ export const getClients = async (): Promise<ClientDTO[]> => {
 
 export const getClientById = async (id: string): Promise<ClientDTO> => {
   try {
-    const response = await Service.useCases('getClientById', {
+    const response = await Service.getuseCases('getClientById', {
       endPointData: { id },
       token: '',
       signal: null,
@@ -32,7 +32,7 @@ export const getClientById = async (id: string): Promise<ClientDTO> => {
 
 export const getClientByName = async (name: string): Promise<ClientDTO[]> => {
   try {
-    const response = await Service.useCases('getClientByName', {
+    const response = await Service.getuseCases('getClientByName', {
       endPointData: { name },
       token: '',
       signal: null,
@@ -46,7 +46,7 @@ export const getClientByName = async (name: string): Promise<ClientDTO[]> => {
 
 export const getClientByEmail = async (email: string): Promise<ClientDTO> => {
   try {
-    const response = await Service.useCases('getClientByEmail', {
+    const response = await Service.getuseCases('getClientByEmail', {
       endPointData: { email },
       token: '',
       signal: null,
@@ -61,7 +61,7 @@ export const getClientByEmail = async (email: string): Promise<ClientDTO> => {
 
 export const getMerchantsByClientId = async (id: string): Promise<ClientMerchantOutputDTO> => {
   try {
-    const response = await Service.useCases('getMerchantsByClientId', {
+    const response = await Service.getuseCases('getMerchantsByClientId', {
       endPointData: { id },
       token: '',
       signal: null,
@@ -83,7 +83,7 @@ export const handleEdit = (id: string) => {
     if (!confirmed) return false;
   
     try {
-      await Service.useCases("deleteClient", {
+      await Service.getuseCases("deleteClient", {
         endPointData: { id },
         token: "",
         signal: null,
@@ -102,7 +102,7 @@ export const handleEdit = (id: string) => {
   
   export const updateClient = async (id: string, clientData: any) => {
     try {
-      await Service.useCases('updateClient', {
+      await Service.getuseCases('updateClient', {
         endPointData: { id, ...clientData },
         token: '',
         signal: null,
@@ -116,7 +116,7 @@ export const handleEdit = (id: string) => {
 
   export const createClient = async (clientData: any) => {
     try {
-      await Service.useCases('createClient', {
+      await Service.getuseCases('createClient', {
         endPointData: clientData,
         token: '',
         signal: null,

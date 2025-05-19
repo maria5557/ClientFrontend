@@ -4,7 +4,7 @@ import { parseError } from '@/common/utils/parseError';
 
 export const getMerchants = async (): Promise<MerchantDTO[]> => {
   try {
-    const response = await Service.useCases("getMerchants", {
+    const response = await Service.getuseCases("getMerchants", {
       signal: null,
       endPointData: {},
       token: "",
@@ -18,7 +18,7 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
 
   export const getMerchantById = async (id: string): Promise<MerchantDTO> => {
     try {
-      const response = await Service.useCases('getMerchantById', {
+      const response = await Service.getuseCases('getMerchantById', {
         endPointData: { id },
         token: '',
         signal: null,
@@ -31,7 +31,7 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
 
   export const getMerchantByName = async (name: string): Promise<MerchantDTO[]> => {
     try {
-      const response = await Service.useCases('getMerchantByName', {
+      const response = await Service.getuseCases('getMerchantByName', {
         endPointData: { name },
         token: '',
         signal: null,
@@ -55,7 +55,7 @@ export const handleEdit = (id: string) => {
     if (!confirmed) return false;
   
     try {
-      await Service.useCases("deleteMerchant", {
+      await Service.getuseCases("deleteMerchant", {
         endPointData: { id },
         token: "",
         signal: null,
@@ -74,7 +74,7 @@ export const handleEdit = (id: string) => {
   
   export const updateMerchant = async (id: string, merchantData: any) => {
     try {
-      await Service.useCases('updateMerchant', {
+      await Service.getuseCases('updateMerchant', {
         endPointData: { id, ...merchantData },
         token: '',
         signal: null,
@@ -88,7 +88,7 @@ export const handleEdit = (id: string) => {
 
   export const createMerchant = async (merchantData: any) => {
     try {
-      await Service.useCases('createMerchant', {
+      await Service.getuseCases('createMerchant', {
         endPointData: merchantData,
         token: '',
         signal: null,

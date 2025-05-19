@@ -1,6 +1,6 @@
-import useCases from './application';
+import getuseCases from './application';
 
-const useCasesJson = useCases as Utility.JSONValue;
+const getuseCasesJson = getuseCases as Utility.JSONValue;
 
 /**
  * @description Capa de Service, donde se sirven distintas funcionalidades que pueden no estar relacionadas con la capa de application
@@ -13,11 +13,11 @@ const Service = {
    * @param parameters  - parámetros del useCase
    * @returns
    */
-  useCases: (useCaseName: string, parameters: Utility.JSONValue) =>
+  getuseCases: (useCaseName: string, parameters: Utility.JSONValue) =>
     new Promise((resolve, reject) => {
       try {
         const { signal, endPointData, token } = parameters;
-        useCasesJson[useCaseName](signal, endPointData, token)
+        getuseCasesJson[useCaseName](signal, endPointData, token)
           .then((response: unknown) => resolve(response))
           .catch((error: unknown) => {
             reject(error);
