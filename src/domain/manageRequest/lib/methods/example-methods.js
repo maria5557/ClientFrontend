@@ -1,4 +1,3 @@
-import { merchantTypeMap } from '@/common/types/merchant';
 
 
 export const EXAMPLE_METHODS = {
@@ -26,6 +25,10 @@ export const EXAMPLE_METHODS = {
 
   createClient: (response) => {
     return response;
+  },
+
+  loginClient: (response) => {
+    return response.data;
   },
   getClientByName: (response) => {
     return response.data;

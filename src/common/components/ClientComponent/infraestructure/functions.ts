@@ -1,17 +1,21 @@
 import Service from "@/service/src";
 import type { ClientDTO, ClientMerchantOutputDTO } from '@/common/types/client';
 import { parseError } from '@/common/utils/parseError';
+import { LoginDTO } from "@/common/types/login";
+import Cookies from 'js-cookie';
 
 
-export const getClients = async (): Promise<ClientDTO[]> => {
+const token2 = Cookies.get('authToken') || '';
+
+export const getClients = async (token?: string): Promise<ClientDTO[]> => {
   try {
     const response = await Service.getuseCases("getClients", {
       signal: null,
       endPointData: {},
-      token: "",
+      token: token,
     });
     return response as ClientDTO[];
-  } catch (error: any) {
+  } catch (error) {
     throw await parseError(error);
   }
 };
@@ -21,11 +25,11 @@ export const getClientById = async (id: string): Promise<ClientDTO> => {
   try {
     const response = await Service.getuseCases('getClientById', {
       endPointData: { id },
-      token: '',
+      token: token2,
       signal: null,
     });
     return response as ClientDTO;
-  } catch (error: any) {
+  } catch (error) {
     throw await parseError(error);
   }
 };
@@ -34,12 +38,12 @@ export const getClientByName = async (name: string): Promise<ClientDTO[]> => {
   try {
     const response = await Service.getuseCases('getClientByName', {
       endPointData: { name },
-      token: '',
+      token: token2,
       signal: null,
     });
     return response as ClientDTO[];
     
-  } catch (error: any) {
+  } catch (error) {
     throw await parseError(error);
   }
 };
@@ -48,11 +52,11 @@ export const getClientByEmail = async (email: string): Promise<ClientDTO> => {
   try {
     const response = await Service.getuseCases('getClientByEmail', {
       endPointData: { email },
-      token: '',
+      token: token2,
       signal: null,
     });
     return response as ClientDTO;
-  } catch (error: any) {
+  } catch (error) {
     console.log("me he metido en el catch de buscar por email")
     throw await parseError(error);
   }
@@ -63,29 +67,29 @@ export const getMerchantsByClientId = async (id: string): Promise<ClientMerchant
   try {
     const response = await Service.getuseCases('getMerchantsByClientId', {
       endPointData: { id },
-      token: '',
+      token: token2,
       signal: null,
     });
     return response as ClientMerchantOutputDTO;
-  } catch (error: any) {
+  } catch (error) {
     throw await parseError(error);
   }
 };
 
 
 
-export const handleEdit = (id: string) => {
+export const handleEdit = (id?: string) => {
     window.location.href = `/clients/${id}/edit`;
   };
   
-  export const handleDelete = async (id: string): Promise<boolean> =>  {
+  export const handleDelete = async (id?: string): Promise<boolean> =>  {
     const confirmed = window.confirm("¿Estás seguro de que quieres borrar este cliente?");
     if (!confirmed) return false;
   
     try {
       await Service.getuseCases("deleteClient", {
         endPointData: { id },
-        token: "",
+        token: token2,
         signal: null,
       });
       return true;
@@ -100,11 +104,11 @@ export const handleEdit = (id: string) => {
 
  
   
-  export const updateClient = async (id: string, clientData: any) => {
+  export const updateClient = async (id?: string, clientData?: ClientDTO) => {
     try {
       await Service.getuseCases('updateClient', {
         endPointData: { id, ...clientData },
-        token: '',
+        token: token2,
         signal: null,
       });
     } catch (error) {
@@ -114,15 +118,29 @@ export const handleEdit = (id: string) => {
   };
 
 
-  export const createClient = async (clientData: any) => {
+  export const createClient = async (clientData: ClientDTO) => {
     try {
       await Service.getuseCases('createClient', {
         endPointData: clientData,
-        token: '',
+        token: token2,
         signal: null,
       });
     } catch (error) {
       console.error('Error al crear cliente:', error);
       throw new Error('No se pudo crear el cliente');
+    }
+  };
+
+  export const loginClient = async (email: string, password: string): Promise<LoginDTO> => {
+    try {
+      const token = await Service.getuseCases("loginClient", {
+        endPointData: { email, password },
+        token: '',
+        signal: null,
+      });
+  
+      return token as LoginDTO;
+    } catch (error) {
+      throw await parseError(error);
     }
   };

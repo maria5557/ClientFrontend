@@ -1,13 +1,15 @@
 'use client';
 
+import { ClientDTO } from '@/common/types/client';
+import { MerchantDTO } from '@/common/types/merchant';
 import { Modal } from 'antd';
 import { useRouter } from 'next/navigation';
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  merchant: Record<string, any> | null;
-  clientData: { name: string; surname: string; email: string } | null;
+  merchant: MerchantDTO | null;
+  clientData: ClientDTO | null;
   clientNotFound: boolean;
 };
 
@@ -34,7 +36,7 @@ const MerchantDetailModal = ({
         <div className="space-y-2">
           <p><strong>Nombre:</strong> {merchant.name}</p>
           <p><strong>Dirección:</strong> {merchant.address}</p>
-          <p><strong>Tipo:</strong> {merchant.merchantTypeDescription}</p>
+          <p><strong>Tipo:</strong> {merchant.merchantType}</p>
 
           {clientNotFound ? (
             <p><strong>Cliente:</strong> No tiene cliente asociado</p>

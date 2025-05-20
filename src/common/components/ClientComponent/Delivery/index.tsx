@@ -6,17 +6,20 @@ import { handleDelete, handleEdit, getMerchantsByClientId } from '@/common/compo
 import { EditOutlined, DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
 import MerchantsByClientModal from '@/common/components/shared/MerchantsByClientModal';
+import { ClientDTO } from '@/common/types/client';
+import { MerchantDTO } from '@/common/types/merchant';
 
 const { Title } = Typography;
 
-const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
-  const [data, setData] = useState<Record<string, any>[]>(clientes);
+const ClientTable = ({ clientes }: { clientes: ClientDTO[] }) => {
+
+  const [data, setData] = useState<ClientDTO[]>(clientes);
   const [merchantsModalVisible, setMerchantsModalVisible] = useState(false);
-  const [merchants, setMerchants] = useState<Record<string, any>[] | null>(null);
+  const [merchants, setMerchants] = useState<MerchantDTO[] | null>(null);
   const [merchantsNotFound, setMerchantsNotFound] = useState(false);
   const router = useRouter();
 
-  const updateData = (id: string) => {
+  const updateData = (id?: string) => {
     setData((prev) => prev.filter((cliente) => cliente.id !== id));
   };
 
@@ -47,7 +50,7 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
     {
       title: 'Acciones',
       key: 'actions',
-      render: (_: any, record: Record<string, any>) => (
+      render: (_: unknown, record: ClientDTO) => (
         <div className="flex gap-2">
           <Button
             size="small"
@@ -76,7 +79,13 @@ const ClientTable = ({ clientes }: { clientes: Record<string, any>[] }) => {
             size="small"
             type="default"
             icon={<InfoCircleOutlined />}
-            onClick={() => showMerchantsModal(record.id)}
+            onClick={() => {
+              if (record.id) {
+                showMerchantsModal(record.id);
+              } else {
+                message.error('ID de cliente no disponible');
+              }
+            }}
           >
             Más info
           </Button>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "../common/components/Navbar";
-import SearchBar from "@/common/components/SearchBar"; // Importamos el componente de búsqueda
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

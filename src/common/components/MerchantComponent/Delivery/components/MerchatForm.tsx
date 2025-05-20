@@ -83,8 +83,8 @@ export default function MerchantForm({ initialMerchant = {}, merchantId }: Merch
         setClientAssigned(true);
         setClientError('');
       }
-    } catch (error: any) {
-      if (error?.message?.includes('Recurso no encontrado')) {
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Recurso no encontrado')) {
         setClientError('El cliente no existe.');
       } else {
         console.error('Error al buscar cliente:', error);

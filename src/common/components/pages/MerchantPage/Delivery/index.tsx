@@ -2,7 +2,7 @@ import MerchantTable from '@/common/components/MerchantComponent/Delivery';
 import {getMerchants, getMerchantByName} from '@/common/components/MerchantComponent/Infraestructure/functions'
 
 export default async function MerchantsPageComponent({ query }: { query?: string }) {
-  let res: { data: Record<string, any>[]  } = { data: [] };
+  const res: { data: Record<string, any>[]  } = { data: [] };
 
   try {
     if(query){

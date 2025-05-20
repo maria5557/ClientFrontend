@@ -4,10 +4,11 @@ import {
   getClientByName,
   getClients,
 } from '@/common/components/ClientComponent/infraestructure/functions';
+import { ClientDTO } from '@/common/types/client';
 
-export default async function ClientsPageComponent({ query }: { query?: string }) {
+export default async function ClientsPageComponent({ query, token }: { query?: string; token?:string}) {
 
-  let res: { data: Record<string, any>[] } = { data: [] };
+  const res: { data: ClientDTO[] } = { data: [] };
 
   try {
     if (query) {
@@ -22,13 +23,16 @@ export default async function ClientsPageComponent({ query }: { query?: string }
       }
     } else {
       // Obtener todos los clientes
-      const allClients = await getClients();
+      const allClients = await getClients(token);
+
+
       res.data = allClients;
     }
   } catch (error) {
     console.error("Error al obtener clientes:", error);
     res.data = [];
   }
+
 
   return <ClientTable clientes={res.data} />;
 }

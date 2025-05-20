@@ -8,19 +8,22 @@ import { useRouter } from 'next/navigation';
 import { getClientById } from '@/common/components/ClientComponent/infraestructure/functions';
 import ClientInfoModal from '@/common/components/shared/ClientInfoModal';
 import MerchantDetailModal from '@/common/components/shared/MerchantDetailModal';
+import { MerchantDTO } from '@/common/types/merchant';
+import { ClientDTO } from '@/common/types/client';
 
 const { Title } = Typography;
 
-const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
-  const [data, setData] = useState<Record<string, any>[]>(merchants);
+
+const MerchantTable = ({ merchants }: { merchants: MerchantDTO[] }) => {
+  const [data, setData] = useState<MerchantDTO[]>(merchants);
   const [merchantModalVisible, setMerchantModalVisible] = useState(false);
   const [clientModalVisible, setClientModalVisible] = useState(false);
   const [clientNotFound, setClientNotFound] = useState(false);
-  const [selectedMerchantDetails, setSelectedMerchantDetails] = useState<Record<string, any> | null>(null);
-  const [clientData, setClientData] = useState<{ name: string; surname: string; email: string } | null>(null);
+  const [selectedMerchantDetails, setSelectedMerchantDetails] = useState<MerchantDTO | null>(null);
+  const [clientData, setClientData] = useState<Pick<ClientDTO, 'name' | 'surname' | 'email'> | null>(null);
   const router = useRouter();
 
-  const updateData = (id: string) => {
+  const updateData = (id?: string) => {
     setData((prev) => prev.filter((merchant) => merchant.id !== id));
   };
 
@@ -30,7 +33,7 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
       if (client) {
         setClientData({
           name: client.name ?? '',
-          surname: client.surname ?? '', 
+          surname: client.surname ?? '',
           email: client.email ?? 'Email no disponible',
         });
         setClientNotFound(false);
@@ -38,13 +41,13 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
         setClientData(null);
         setClientNotFound(true);
       }
-    } catch {
+    } catch (error: unknown) {
       setClientData(null);
       setClientNotFound(true);
     }
   };
 
-  const handleShowClientModal = async (merchant: Record<string, any>) => {
+  const handleShowClientModal = async (merchant: MerchantDTO) => {
     if (merchant.idCliente) {
       await fetchClient(merchant.idCliente);
     } else {
@@ -54,7 +57,7 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
     setClientModalVisible(true);
   };
 
-  const handleShowMerchantModal = async (merchant: Record<string, any>) => {
+  const handleShowMerchantModal = async (merchant: MerchantDTO) => {
     setSelectedMerchantDetails(merchant);
     if (merchant.idCliente) {
       await fetchClient(merchant.idCliente);
@@ -72,27 +75,26 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
     {
       title: 'Cliente',
       key: 'client',
-      render: (_: any, record: Record<string, any>) => (
+      render: (_: unknown, record: MerchantDTO) =>
         record.idCliente ? (
           <Button type="link" onClick={() => handleShowClientModal(record)}>
             Ver cliente
           </Button>
         ) : (
           <span>No tiene cliente</span>
-        )
-      ),
+        ),
     },
     {
       title: 'Acciones',
       key: 'actions',
-      render: (_: any, record: Record<string, any>) => (
+      render: (_: unknown, record: MerchantDTO) => (
         <div className="flex gap-2">
           <Button
             size="small"
             type="primary"
             ghost
             icon={<EditOutlined />}
-            onClick={() => handleEdit(record.id!)}
+            onClick={() => handleEdit(record.id)}
           >
             Editar
           </Button>
@@ -101,9 +103,9 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
             danger
             icon={<DeleteOutlined />}
             onClick={async () => {
-              const success = await handleDelete(record.id!);
+              const success = await handleDelete(record.id);
               if (success) {
-                updateData(record.id!);
+                updateData(record.id);
                 message.success('Merchant borrado correctamente');
               }
             }}
@@ -134,7 +136,6 @@ const MerchantTable = ({ merchants }: { merchants: Record<string, any>[] }) => {
 
       <Table dataSource={data} columns={columns} pagination={{ pageSize: 10 }} rowKey="id" />
 
-      {/* Modales reutilizables */}
       <ClientInfoModal
         open={clientModalVisible}
         onClose={() => {

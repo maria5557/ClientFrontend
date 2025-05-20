@@ -19,13 +19,18 @@ export default function ClientForm({ initialClient = {}, clientId }: ClientFormP
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const clientData = {
+
+    const clientData: ClientDTO = {
       name: formData.get('name') as string,
       surname: formData.get('surname') as string,
       cifNifNie: formData.get('cifNifNie') as string,
       email: formData.get('email') as string,
       phone: formData.get('phone') as string,
     };
+
+    if (!isEditing) {
+      clientData.password = formData.get('password') as string;
+    }
 
     try {
       if (isEditing) {
@@ -113,6 +118,19 @@ export default function ClientForm({ initialClient = {}, clientId }: ClientFormP
           />
         </div>
       </div>
+
+      {!isEditing && (
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            className="mt-1 block w-full px-4 py-2 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+      )}
 
       <div className="flex justify-between items-center">
         <button

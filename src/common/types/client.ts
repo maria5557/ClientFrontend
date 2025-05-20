@@ -5,6 +5,7 @@ export interface ClientDTO {
   cifNifNie?: string;
   email?: string;
   phone?: string;
+  password?: string;
 }
 
 export interface MerchantObject {

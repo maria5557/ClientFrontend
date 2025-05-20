@@ -1,13 +1,15 @@
 'use client';
 
+import { ClientDTO } from '@/common/types/client';
 import { Modal } from 'antd';
 import { useRouter } from 'next/navigation';
+
 
 type Props = {
   open: boolean;
   onClose: () => void;
   clientNotFound: boolean;
-  clientData: { name: string;  surname: string; email: string } | null;
+  clientData: ClientDTO | null;
 };
 
 const ClientInfoModal = ({ open, onClose, clientNotFound, clientData }: Props) => {

@@ -10,7 +10,7 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
       token: "",
     });
     return response as MerchantDTO[];
-  } catch (error: any) {
+  } catch (error) {
     throw await parseError(error);
   }
 };
@@ -24,7 +24,7 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
         signal: null,
       });
       return response as MerchantDTO;
-    }catch (error: any) {
+    }catch (error) {
       throw await parseError(error);
     }
   };
@@ -38,7 +38,7 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
       });
       return response as MerchantDTO[];
       
-    } catch (error: any) {
+    } catch (error) {
       throw await parseError(error);
     }
   };
@@ -46,11 +46,11 @@ export const getMerchants = async (): Promise<MerchantDTO[]> => {
 
 
 
-export const handleEdit = (id: string) => {
+export const handleEdit = (id?: string) => {
     window.location.href = `/merchants/${id}/edit`;
   };
   
-  export const handleDelete = async (id: string): Promise<boolean> =>  {
+  export const handleDelete = async (id?: string): Promise<boolean> =>  {
     const confirmed = window.confirm("¿Estás seguro de que quieres borrar este merchant?");
     if (!confirmed) return false;
   
@@ -72,7 +72,7 @@ export const handleEdit = (id: string) => {
 
  
   
-  export const updateMerchant = async (id: string, merchantData: any) => {
+  export const updateMerchant = async (id: string, merchantData: MerchantDTO) => {
     try {
       await Service.getuseCases('updateMerchant', {
         endPointData: { id, ...merchantData },
@@ -86,7 +86,7 @@ export const handleEdit = (id: string) => {
   };
 
 
-  export const createMerchant = async (merchantData: any) => {
+  export const createMerchant = async (merchantData: MerchantDTO) => {
     try {
       await Service.getuseCases('createMerchant', {
         endPointData: merchantData,

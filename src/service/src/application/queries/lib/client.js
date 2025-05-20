@@ -136,6 +136,24 @@ const clientUseCases = {
         );
       },
 
+
+      loginClient: (signal, values, token) => {
+        return manageRequest(
+          signal,
+          'loginClient',       
+          values,             
+          'body',              
+          'normal',             
+          'post',              
+          token,
+          undefined,
+          {
+            'Content-Type': 'application/json', 
+          },
+          true
+        );
+      },
+
 };
 
 export default clientUseCases;

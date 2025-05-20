@@ -9,6 +9,8 @@ export const EXAMPLE_QUERIES = {
 
   updateClient: (values)  => `http://localhost:8080/clients/${values.id}`,
   createClient: () => `http://localhost:8080/clients`,
+  loginClient: () => `http://localhost:8080/clients/login`,
+
 
   getMerchants: () => `http://localhost:8081/merchants`,
   deleteMerchant: (values) => `http://localhost:8081/merchants/${values.id}`,
