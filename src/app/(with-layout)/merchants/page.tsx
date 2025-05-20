@@ -27,6 +27,6 @@ export default function MerchantsPage({searchParams}: { searchParams?: {
           fallback = {<ClientTableSkeleton/>} >
             <MerchantsPageComponent query={queryParam}  />
           </Suspense>
-        </div>
+     </div>
   );
 }
